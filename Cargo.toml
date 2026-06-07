@@ -1,0 +1,23 @@
+[workspace]
+members = ["."]
+resolver = "2"
+
+[package]
+name = "cloudflare-ddns-rfc2136"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+description = "RFC2136 Dynamic DNS Update bridge for Cloudflare DNS"
+repository = "https://example.com/cloudflare-ddns-rfc2136"
+
+[dependencies]
+base64 = "0.22"
+envy = "0.4"
+hickory-proto = { version = "0.26.1", features = ["dnssec-ring", "serde"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["io-util", "macros", "net", "rt-multi-thread", "signal", "time"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "json"] }

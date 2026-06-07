@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflare-ddns-rfc2136
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloudflare-ddns-rfc2136
+  template:
+    metadata:
+      labels:
+        app: cloudflare-ddns-rfc2136
+    spec:
+      containers:
+        - name: cloudflare-ddns-rfc2136
+          image: ghcr.io/example/cloudflare-ddns-rfc2136:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: cloudflare-ddns-rfc2136
+            - secretRef:
+                name: cloudflare-ddns-rfc2136
+          readinessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 53
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_BIND_SERVICE
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

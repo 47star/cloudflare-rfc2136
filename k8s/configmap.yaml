@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflare-ddns-rfc2136
+data:
+  LISTEN_UDP: "0.0.0.0:53"
+  LISTEN_TCP: "0.0.0.0:53"
+  DNS_ZONE: "example.internal."
+  ALLOWED_RECORD_SUFFIX: "example.internal."
+  DEFAULT_TTL: "300"
+  TSIG_KEY_NAME: "ddns-key."
+  TSIG_ALGORITHM: "hmac-sha256"
+  LOG_LEVEL: "info"
